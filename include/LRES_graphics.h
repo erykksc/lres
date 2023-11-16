@@ -10,12 +10,13 @@ class Screen
     CRGB leds[NUM_LEDS];
 
 public:
+    Screen();
     void draw(int x, int y, CRGB c);
-    void clear(unsigned int r, unsigned int g, unsigned int b)
+    void clear(unsigned int r, unsigned int g, unsigned int b);
     void render();
 };
 
 // Primitives
-void drawLine(Screen* screen, int x0, int y0, int x1, int y1, CRGB color);
+void drawLine(Screen* screen, int x1, int y1, int x2, int y2, CRGB color);
 
 #endif
