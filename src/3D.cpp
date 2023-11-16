@@ -41,18 +41,17 @@ vec3d rotateVertZ(vec3d old_vert, float angle, vec3d rotation_point)
 }
 
 Cube::Cube(float size, CRGB color)
-    : halfSize(size*.5),
+    : halfSize(size * .5),
       color(color),
       vertices{
-          vec3d(-halfSize, halfSize, -halfSize+z_offset),
-          vec3d(halfSize, halfSize, -halfSize+z_offset),
-          vec3d(-halfSize, -halfSize, -halfSize+z_offset),
-          vec3d(halfSize, -halfSize, -halfSize+z_offset),
-          vec3d(-halfSize, halfSize, halfSize+z_offset),
-          vec3d(halfSize, halfSize, halfSize+z_offset),
-          vec3d(-halfSize, -halfSize, halfSize+z_offset),
-          vec3d(halfSize, -halfSize, halfSize+z_offset)
-      },
+          vec3d(-halfSize, halfSize, -halfSize + z_offset),
+          vec3d(halfSize, halfSize, -halfSize + z_offset),
+          vec3d(-halfSize, -halfSize, -halfSize + z_offset),
+          vec3d(halfSize, -halfSize, -halfSize + z_offset),
+          vec3d(-halfSize, halfSize, halfSize + z_offset),
+          vec3d(halfSize, halfSize, halfSize + z_offset),
+          vec3d(-halfSize, -halfSize, halfSize + z_offset),
+          vec3d(halfSize, -halfSize, halfSize + z_offset)},
       lines{
           Line(&vertices[0], &vertices[1]),
           Line(&vertices[1], &vertices[3]),
@@ -65,11 +64,11 @@ Cube::Cube(float size, CRGB color)
           Line(&vertices[0], &vertices[4]),
           Line(&vertices[1], &vertices[5]),
           Line(&vertices[2], &vertices[6]),
-          Line(&vertices[3], &vertices[7])
-      } {
+          Line(&vertices[3], &vertices[7])}
+{
 }
 
-void Cube::draw(Screen& screen, int x, int y)
+void Cube::draw(Screen &screen, int x, int y)
 {
     for (int i = 0; i < 12; i++)
     {
