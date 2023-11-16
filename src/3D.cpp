@@ -1,4 +1,5 @@
 #include "3D.h"
+#include "Screen.h"
 
 vec3d rotateVertX(vec3d old_vert, float angle, vec3d rotation_point)
 {
@@ -39,8 +40,9 @@ vec3d rotateVertZ(vec3d old_vert, float angle, vec3d rotation_point)
     return old_vert;
 }
 
-Cube::Cube(float size)
+Cube::Cube(float size, CRGB color)
     : halfSize(size*.5),
+      color(color),
       vertices{
           vec3d(-halfSize, halfSize, -halfSize+z_offset),
           vec3d(halfSize, halfSize, -halfSize+z_offset),
@@ -67,7 +69,7 @@ Cube::Cube(float size)
       } {
 }
 
-void Cube::draw(Screen* screen, int x, int y, CRGB color)
+void Cube::draw(Screen& screen, int x, int y)
 {
     for (int i = 0; i < 12; i++)
     {
@@ -77,6 +79,11 @@ void Cube::draw(Screen* screen, int x, int y, CRGB color)
                  (lines[i].end->x) + x,
                  (lines[i].end->y) + y, color);
     }
+}
+
+void Cube::render(Screen &screen)
+{
+    draw(screen, 7.5, 7.5);
 }
 
 void Cube::rotateX(float angle)

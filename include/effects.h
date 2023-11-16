@@ -3,8 +3,8 @@
 
 #include <FastLED.h>
 
-void makeWaveThing(CRGB *leds, int num_leds);
+void makeWaveThing(Screen &s);
 
-void randomColors(CRGB *leds, int num_leds);
+CRGB randomColors(int x, int y, int width, int height);
 
 #endif // EFFECTS_H
