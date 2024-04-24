@@ -1,45 +1,39 @@
-#include <FastLED.h>
-#include "Screen.h"
-#include "3D.h"
-#include "effects.h"
+#include "secrets.h"
+#include <WiFi.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
 
-Screen screen;
+AsyncWebServer server(80); // HTTP server will run on port 80
 
 void setup()
 {
-  Serial.begin(9600);
-  Serial.println("Initializing Screen...");
-  screen.init();
-  Serial.println("Done.");
+    Serial.begin(9600);
+    if (!SPIFFS.begin(true))
+    {
+        Serial.println("An Error has occurred while mounting SPIFFS");
+        return;
+    }
+    // // Connect to Wi-Fi
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(1000);
+        Serial.println("Connecting to WiFi...");
+    }
+
+    Serial.println(WiFi.localIP()); // Print the device's IP address
+
+    // Define routes
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+              { Serial.println("Request received on /"); 
+                });
+      // Serve all files directly from SPIFFS
+    server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
+    server.begin(); // Start the server
 }
 
 void loop()
 {
-  Serial.println("Entering loop...");
-
-  Serial.println("Building Cube...");
-  Cube cube = Cube(6);
-  Serial.println("Done.");
-
-  // One can draw a function that takes in Screen
-  screen.draw(makeWaveThing);
-  delay(1500);
-
-  // One can draw a function that takes in x, y, width, height
-  // There are draw_and_show functions for all the draw functions to make it easier to use
-  screen.draw_and_show(randomColors);
-  delay(1500);
-
-  while (1)
-  {
-    screen.clear();
-    cube.rotateX(.1);
-    cube.rotateY(.1);
-    cube.rotateZ(.1);
-
-    // One can draw a Renderer Object
-    screen.draw(cube);
-    screen.show();
-    delay(100);
-  }
+    // Nothing to do here, the server handles connections asynchronously
 }
